@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+<input type="button" id="create" value="Save" class="btn btn-primary btn-sm btn-block" onclick="Create('tblItem');" />
+<table border="1 px solid black" id="tblItem">
+    <tr>
+        <th>Sl</th>
+        <th>Name</th>
+        <th>Roll</th>
+        <th>Class</th>
+        <th>Address</th>
+        <th>Phone</th>
+
+    </tr>
+   
+    <tr>
+        <td>1</td>
+        <td>Ahsan</td>
+        <td>2</td>
+        <td>Two</td>
+        <td>Mohammadpur</td>
+        <td>01544</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Rashed</td>
+        <td>2</td>
+        <td>Two</td>
+        <td>Mohammadpur</td>
+        <td>01544</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Farabi</td>
+        <td>2</td>
+        <td>Two</td>
+        <td>Mohammadpur</td>
+        <td>01544</td>
+    </tr>
+
+
+
+</table>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+   function Create() {
+        
+        var isAllValid = true;
+        var status = true;
+        TableRowData = [];
+        var nth = document.getElementById('tblItem').rows.length;
+        for (j = 1; j < nth; j++) {
+            TableRowData.push({
+                ID:0,
+                SL: $("table").find("tr").eq(j).find("td:eq(0)").html(),
+                Name: $("table").find("tr").eq(j).find("td:eq(1)").html(),
+                Roll: $("table").find("tr").eq(j).find("td:eq(2)").html(),
+                Class: $("table").find("tr").eq(j).find("td:eq(3)").html(),
+                Address: $("table").find("tr").eq(j).find("td:eq(4)").html(),
+                Phone: $("table").find("tr").eq(j).find("td:eq(5)").html()
+            });
+        }
+        console.log(TableRowData);
+        var data = {
+            targetVM: TableRowData
+        }
+        console.log(data);
+        //debugger;
+
+        $.ajax({
+            url: '/Home/InsertTarget',
+            type: "POST",
+            data: JSON.stringify(data),  
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (a) {
+                //check is successfully save to database
+                //if (a.status == true) {
+                    //will send status from server side
+                    alert('Successfully Done...');
+                
+                //else {
+                    //alert('Failed');
+                //}
+
+            },
+            error: function () {
+                alert('Error. Please try again.');
+            }
+        });
+    }
+</script>
